@@ -44,4 +44,4 @@ async function downloadTiles(zoom) {
   }
 }
 
-downloadTiles(8);
+downloadTiles(9);
