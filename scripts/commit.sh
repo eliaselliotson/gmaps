@@ -1,6 +1,6 @@
 # Stage everything
 echo "Staging everything"
-git add .
+git add ../
 
 ## Commit everything
 echo "Committing staged files with message: $1"
