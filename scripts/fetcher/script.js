@@ -1,30 +1,42 @@
 // https://khms3.google.com/kh/v=999?x=579434&y=767013&z=21
 
-import { createWriteStream, mkdirSync } from 'fs';
-import request from 'request';
+import fetch from 'node-fetch';
+import { writeFileSync, mkdirSync, mkdir } from 'fs';
 
-let counter = 0;
+async function downloadImage(imageUrl, outputPath) {
+  try {
+    const response = await fetch(imageUrl);
 
-var download = function(uri, filename, callback){
-  request.head(uri, function(err, res, body){
-    try {
-        request(uri).pipe(createWriteStream(filename)).on('close', callback);
-    } catch(e) {}
-  });
-};
+    if (!response.ok) {
+      console.log(`HTTP error! status: ${response.status}`);
+    }
 
-function downloadZoom(z) {
-  for (let y = 0; y < Math.pow(2, z); y++) {
-    for (let x = 0; x < Math.pow(2, z); x++) {
-      download(`https://khms3.google.com/kh/v=999?x=${x}&y=${y}&z=${z}`, `./tiles/${z}/${x}-${y}.png`, function() {
-        counter++;
-        if (counter%100 === 0) {
-          console.log(counter);
-        }
-      });
+    const imageBuffer = await response.buffer();
+
+    writeFileSync(outputPath, imageBuffer);
+
+  } catch (error) {
+    console.log('Error downloading image:', error);
+  }
+}
+
+async function downloadTile(x, y, zoom) {
+  await downloadImage(
+    `https://khms3.google.com/kh/v=999?x=${x}&y=${y}&z=${zoom}`,
+    `../../tiles/${zoom}/${x}-${y}.png`
+  );
+}
+
+async function downloadTiles(zoom) {
+  mkdirSync(`./tiles/${zoom}`, { recursive: true })
+
+  for (let y = 0; y < Math.pow(2, zoom); y++) {
+    console.log(y);
+
+    for (let x = 0; x < Math.pow(2, zoom); x++) {
+      await downloadTile(x, y, zoom);
     }
   }
 }
 
-mkdirSync(`./tiles/5`, { recursive: true })
-downloadZoom(5);
+downloadTiles(7);
