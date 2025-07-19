@@ -8,7 +8,8 @@ async function downloadImage(imageUrl, outputPath) {
     const response = await fetch(imageUrl);
 
     if (!response.ok) {
-      console.log(`HTTP error! status: ${response.status}`);
+      // console.log(`HTTP error! status: ${response.status}`);
+      return;
     }
 
     const imageBuffer = await response.buffer();
@@ -16,7 +17,7 @@ async function downloadImage(imageUrl, outputPath) {
     writeFileSync(outputPath, imageBuffer);
 
   } catch (error) {
-    console.log('Error downloading image:', error);
+    // console.log('Error downloading image:', error);
   }
 }
 
@@ -28,15 +29,19 @@ async function downloadTile(x, y, zoom) {
 }
 
 async function downloadTiles(zoom) {
-  mkdirSync(`./tiles/${zoom}`, { recursive: true })
+  mkdirSync(`../../tiles/${zoom}`, { recursive: true })
 
   for (let y = 0; y < Math.pow(2, zoom); y++) {
-    console.log(y);
-
     for (let x = 0; x < Math.pow(2, zoom); x++) {
       await downloadTile(x, y, zoom);
+
+      const progress = (y * Math.pow(2, zoom)) + x;
+
+      if (progress % 100 === 0) {
+        console.log(`${progress / Math.pow(2, zoom * 2)}%`)
+      }
     }
   }
 }
 
-downloadTiles(7);
+downloadTiles(8);
