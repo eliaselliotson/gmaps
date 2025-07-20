@@ -3,8 +3,8 @@ import os
 import glob
 import numpy as np
 
-image_folder = "../../tiles/2"
-output_file = "../../maps/2.png"
+image_folder = "../../tiles/7"
+output_file = "../../maps/7.png"
 
 tile_paths = glob.glob(os.path.join(image_folder, "*.png"))
 def parse_tile_info(path):
@@ -26,6 +26,8 @@ tile_w, tile_h = None, None
 stitched_image = None
 
 for row_idx, y in enumerate(ys):
+    print(y)
+ 
     row_images = []
     for col_idx, x in enumerate(xs):
         path = next(p for tx, ty, p in tiles_info if tx == x and ty == y)
