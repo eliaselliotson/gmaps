@@ -1,5 +1,8 @@
 # Google Maps Satellite Imagery
 
+![GitHub last commit](https://img.shields.io/github/last-commit/beta-kokos-labs/gmaps)
+![GitHub repo size](https://img.shields.io/github/repo-size/beta-kokos-labs/gmaps)
+
 This repo contains maps of various sizes of Google Maps satellite imagery, as well as scripts for downloading them.
 
 ## Maps
