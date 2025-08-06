@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "load": "node ./scripts/fetcher/script.js --no-deprecation"
+  }
+}

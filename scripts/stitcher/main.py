@@ -3,8 +3,8 @@ import os
 import glob
 import numpy as np
 
-image_folder = "../../tiles/7"
-output_file = "../../maps/7.png"
+image_folder = "../../your_input"
+output_file = "../../your_output.png"
 
 tile_paths = glob.glob(os.path.join(image_folder, "*.png"))
 def parse_tile_info(path):
